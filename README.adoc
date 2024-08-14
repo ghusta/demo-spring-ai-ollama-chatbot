@@ -1,0 +1,45 @@
+= My Document's Title
+:toc:
+:imagesdir: assets/images
+
+== Overview
+
+Demo for testing chatbot with Ollama and Spring AI.
+
+The LLM used is https://ollama.com/library/llama3[llama3] or https://ollama.com/library/llama3.1[llama3.1].
+
+Inspired by article : https://www.baeldung.com/spring-ai-ollama-chatgpt-like-chatbot
+
+== Starting service ollama
+
+[source,bash]
+----
+ollama serve
+ollama pull llama3.1
+----
+
+=== To start it with Docker
+
+[source,bash]
+----
+docker run -d -p 11434:11434 --gpus=all ollama/ollama
+----
+
+NOTE: Ollama can make use of GPUs.
+The https://docs.docker.com/reference/cli/docker/container/run/#gpus[_--gpus_] Docker option is required for that.
+
+Then a model must be downloaded (if no local volume contains an existing model).
+
+[source,bash]
+----
+docker exec <container_id> ollama pull llama3.1
+----
+
+== Testing chatbot API
+
+Send POST request to : _http://localhost:8080/helpdesk/chat_
+
+== References
+* https://ollama.com/[Ollama]
+** https://ollama.com/library[Ollama models]
+* https://hub.docker.com/r/ollama/ollama[Ollama Docker image]
