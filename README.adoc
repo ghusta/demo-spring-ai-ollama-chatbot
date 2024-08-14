@@ -1,4 +1,4 @@
-= My Document's Title
+= Demo Spring AI + Ollama
 :toc:
 :imagesdir: assets/images
 
