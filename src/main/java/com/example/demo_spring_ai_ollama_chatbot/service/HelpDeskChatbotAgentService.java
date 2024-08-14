@@ -1,12 +1,16 @@
 package com.example.demo_spring_ai_ollama_chatbot.service;
 
+import com.example.demo_spring_ai_ollama_chatbot.model.HistoryEntry;
 import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class HelpDeskChatbotAgentService {
@@ -50,17 +54,26 @@ public class HelpDeskChatbotAgentService {
 
     private final OllamaChatModel ollamaChatClient;
 
+    private final Map<String, List<HistoryEntry>> conversationalHistoryStorage = new HashMap<>();
+
     public HelpDeskChatbotAgentService(OllamaChatModel ollamaChatClient) {
         this.ollamaChatClient = ollamaChatClient;
     }
 
     public String call(String userMessage, String historyId) {
+        var currentHistory = conversationalHistoryStorage.computeIfAbsent(historyId, k -> new ArrayList<>());
+
+        var historyPrompt = new StringBuilder(PROMPT_CONVERSATION_HISTORY_INSTRUCTIONS);
+        currentHistory.forEach(entry -> historyPrompt.append(entry.toString()));
+
+        var contextSystemMessage = new SystemMessage(historyPrompt.toString());
         var generalInstructionsSystemMessage = new SystemMessage(PROMPT_GENERAL_INSTRUCTIONS);
         var currentPromptMessage = new UserMessage(CURRENT_PROMPT_INSTRUCTIONS.concat(userMessage));
 
-//        var prompt = new Prompt(List.of(generalInstructionsSystemMessage, contextSystemMessage, currentPromptMessage));
-        var prompt = new Prompt(List.of(generalInstructionsSystemMessage, currentPromptMessage));
+        var prompt = new Prompt(List.of(generalInstructionsSystemMessage, contextSystemMessage, currentPromptMessage));
         var response = ollamaChatClient.call(prompt).getResult().getOutput().getContent();
+        var contextHistoryEntry = new HistoryEntry(userMessage, response);
+        currentHistory.add(contextHistoryEntry);
 
         return response;
     }
