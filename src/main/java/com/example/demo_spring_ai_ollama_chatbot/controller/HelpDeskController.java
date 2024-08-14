@@ -23,11 +23,11 @@ public class HelpDeskController {
 
     @PostMapping("/chat")
     public ResponseEntity<HelpDeskResponse> chat(@RequestBody HelpDeskRequest helpDeskRequest) {
-        var chatResponse = helpDeskChatbotAgentService.call(helpDeskRequest.getPromptMessage(), helpDeskRequest.getHistoryId());
+        var chatResponse = helpDeskChatbotAgentService.call(helpDeskRequest.promptMessage(), helpDeskRequest.historyId());
 
         HttpHeaders headers = new HttpHeaders();
-        if (helpDeskRequest.getHistoryId() != null && !helpDeskRequest.getHistoryId().isBlank()) {
-            headers.add("X-History-Id", helpDeskRequest.getHistoryId());
+        if (helpDeskRequest.historyId() != null && !helpDeskRequest.historyId().isBlank()) {
+            headers.add("X-History-Id", helpDeskRequest.historyId());
         }
         return new ResponseEntity<>(new HelpDeskResponse(chatResponse), headers, HttpStatus.OK);
     }
