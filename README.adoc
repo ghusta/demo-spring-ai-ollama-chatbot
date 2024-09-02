@@ -43,14 +43,14 @@ Send POST request to : _http://localhost:8080/helpdesk/chat_
 
 [source,bash]
 ----
-http POST http://localhost:8080/helpdesk/chat prompt_message="Hello how are you ?"
+http POST http://localhost:8080/helpdesk/chat prompt_message="Hello how are you ?" history_id=1234
 ----
 
 === Example with cURL
 
 [source,bash]
 ----
-curl -X POST http://localhost:8080/helpdesk/chat -H "Content-Type: application/json" -d '{"prompt_message":"Hello how are you ?"}'
+curl -X POST http://localhost:8080/helpdesk/chat -H "Content-Type: application/json" -d '{"prompt_message":"Hello how are you ?", "history_id":"1234"}'
 ----
 
 == References
