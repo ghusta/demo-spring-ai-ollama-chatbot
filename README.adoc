@@ -39,6 +39,20 @@ docker exec <container_id> ollama pull llama3.1
 
 Send POST request to : _http://localhost:8080/helpdesk/chat_
 
+=== Example with HTTPie
+
+[source,bash]
+----
+http POST http://localhost:8080/helpdesk/chat prompt_message="Hello how are you ?"
+----
+
+=== Example with cURL
+
+[source,bash]
+----
+curl -X POST http://localhost:8080/helpdesk/chat -H "Content-Type: application/json" -d '{"prompt_message":"Hello how are you ?"}'
+----
+
 == References
 * https://ollama.com/[Ollama]
 ** https://ollama.com/library[Ollama models]
