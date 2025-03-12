@@ -71,7 +71,7 @@ public class HelpDeskChatbotAgentService {
         var currentPromptMessage = new UserMessage(CURRENT_PROMPT_INSTRUCTIONS.concat(userMessage));
 
         var prompt = new Prompt(List.of(generalInstructionsSystemMessage, contextSystemMessage, currentPromptMessage));
-        var response = ollamaChatClient.call(prompt).getResult().getOutput().getContent();
+        var response = ollamaChatClient.call(prompt).getResult().getOutput().getText();
         var contextHistoryEntry = new HistoryEntry(userMessage, response);
         currentHistory.add(contextHistoryEntry);
 
