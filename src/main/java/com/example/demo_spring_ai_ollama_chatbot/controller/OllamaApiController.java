@@ -3,7 +3,7 @@ package com.example.demo_spring_ai_ollama_chatbot.controller;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.ai.autoconfigure.ollama.OllamaConnectionDetails;
+import org.springframework.ai.model.ollama.autoconfigure.OllamaConnectionDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
